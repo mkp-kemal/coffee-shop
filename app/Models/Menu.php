@@ -12,11 +12,11 @@ class Menu extends Model
 
     public function kategori_menu()
     {
-        return $this->belongsTo(KategoriMenu::class);
+        return $this->belongsTo(KategoriMenu::class,"id_kategori_menu","id_kategori_menu");
     }
 
     public function varian_menu()
     {
-        return $this->hasMany(VarianMenu::class);
+        return $this->hasMany(VarianMenu::class,"id_varian_menu","id_varian_menu");
     }
 }

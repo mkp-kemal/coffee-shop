@@ -11,7 +11,7 @@ class KategoriMenu extends Model
     protected $primaryKey = "id_kategori_menu";
     public function menu()
     {
-        return $this->hasMany(Menu::class);
+        return $this->hasMany(Menu::class,"id_menu","id_menu");
     }
 
 }

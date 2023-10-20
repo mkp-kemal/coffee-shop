@@ -10,17 +10,17 @@ class DetailOrders extends Model
     use HasFactory;
     protected $primaryKey = "id_detail_order";
 
-    public function orders():
+    public function orders()
     {
-        return $this->belongsTo(Orders::class);
+        return $this->belongsTo(Orders::class,"id_order","id_order");
     }
-    public function menu():
+    public function menu()
     {
-        return $this->belongsTo(Menu::class);
+        return $this->belongsTo(Menu::class,"id_menu","id_menu");
     }
-    public function varian_menu():
+    public function varian_menu()
     {
-        return $this->belongsTo(VarianMenu::class);
+        return $this->belongsTo(VarianMenu::class,"id_varian_menu","id_varian_menu");
     }
 
 }

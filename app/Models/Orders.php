@@ -12,7 +12,7 @@ class Orders extends Model
 
     public function detail_order()
     {
-        return $this->hasMany(DetailOrders::class);
+        return $this->hasMany(DetailOrders::class,"id_detail_order","id_detail_order");
     }
 
 }
