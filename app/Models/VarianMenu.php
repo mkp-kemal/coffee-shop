@@ -9,4 +9,12 @@ class VarianMenu extends Model
 {
     use HasFactory;
     protected $primaryKey = "id_varian_menu";
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class);
+    }
+    public function detail_orders(){
+        return $this->hasMany(DetailOrders::class);
+    }
+
 }
