@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('kategori_menu', function (Blueprint $table) {
             $table->increments('id_kategori_menu');
             $table->string('nama_kategori_menu',100);
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }
