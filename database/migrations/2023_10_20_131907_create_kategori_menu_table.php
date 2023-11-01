@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments("id_user");
-            $table->string('username')->unique();
-            $table->string('password');
-            $table->enum('role',['admin','kasir']);
-            $table->rememberToken();
+        Schema::create('kategori_menu', function (Blueprint $table) {
+            $table->increments('id_kategori_menu');
+            $table->string('nama_kategori_menu',100);
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('kategori_menu');
     }
 };
