@@ -25,6 +25,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/all-product', [ProductController::class, 'productAll']);
+Route::get('/all-category-product', [ProductController::class, 'categoryProductAll']);
+Route::post('/order-details', [ProductController::class, 'orderDetails']);
 Route::get('/kategori/{id_kategori}', [ProductController::class, 'byKategori']);
 Route::get('/menu/{id_menu}', [ProductController::class, 'byIdMenu']);
 Route::get('/pluck/{id_menu}', [ProductController::class, 'pluckToName']);

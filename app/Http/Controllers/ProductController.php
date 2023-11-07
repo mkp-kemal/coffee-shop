@@ -12,7 +12,12 @@ class ProductController extends Controller
     {
         $menu_table = KategoriMenu::with(["menu"])->get();
         return response()->json($menu_table);
+    }
 
+    public function categoryProductAll()
+    {
+        $menu_table = KategoriMenu::all();
+        return response()->json($menu_table);
     }
 
     public function byKategori($id_kategori)
@@ -21,13 +26,11 @@ class ProductController extends Controller
         return response()->json($menu_table);
     }
 
-
     public function byIdMenu($id_menu)
     {
-        $menu_table = Menu::where('id_menu', $id_menu)->get();
+        $menu_table = Menu::where('id_menu', $id_menu)->first();
         return response()->json($menu_table);
     }
-
 
     public function pluckToName($id_menu)
     {
@@ -43,5 +46,30 @@ class ProductController extends Controller
             ->join('kategori_menu', 'menu.id_kategori_menu', '=', 'kategori_menu.id_kategori_menu')
             ->get();
         return response()->json($menu_table);
+    }
+
+    public function orderDetails(Request $request){
+        $cart       = $request->input("cart");
+        $menu_ids   = [];
+        foreach($cart as $menu){
+            $menu_ids[]     = $menu["id_menu"];
+        }
+
+        $data_menu   = Menu::select("id_menu","nama_menu","harga_menu")->whereIn("id_menu",$menu_ids)->get();
+
+        $total_price    = 0;
+        foreach($data_menu as $row){
+            $idx = array_search($row->id_menu, array_column($cart, 'id_menu'));
+            $row->qty   = $cart[$idx]["qty"];
+
+            $total_price    += ($row->qty * $row->harga_menu);
+        }
+
+        $result     = [
+            "total_price"   => $total_price,
+            "cart"          => $data_menu
+        ];
+
+        return response()->json($result);
     }
 }
