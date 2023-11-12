@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetailOrders;
+use App\Models\DeviceLogs;
 use App\Models\Menu;
 use App\Models\Orders;
 use App\Models\VarianMenu;
@@ -61,7 +62,7 @@ class OrderController extends Controller
                     $detail_orders->harga_beli  = $product->harga_menu;
 
                     if(!empty($varian->harga_varian_menu)){
-                        $detail_orders->harga_beli += $varian->harga_varian_menu
+                        $detail_orders->harga_beli += $varian->harga_varian_menu;
                     }
 
                     $detail_orders->save();

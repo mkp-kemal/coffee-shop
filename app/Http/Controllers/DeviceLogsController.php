@@ -18,11 +18,11 @@ class DeviceLogsController extends Controller
         if($device_logs->save()){
             return response()->json([
                 "message" => "Successfuly insert"
-            ])
+            ]);
         }else{
             return response()->json([
                 "message" => "Failed please try again"
-            ])
+            ]);
         }
     }
 }
