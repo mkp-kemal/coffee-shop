@@ -22,6 +22,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
+        \App\Models\User::create([
+            'username' => 'kasir',
+            'password' => Hash::make('kasir123'),
+            'role' => 'kasir',
+        ]);
+
         DB::table("kategori_menu")->insert([
             'nama_kategori_menu' => 'Kopi',
             'created_at' => now(),
