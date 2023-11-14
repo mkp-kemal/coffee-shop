@@ -22,11 +22,6 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 }); */
 
-Route::post("/login",[AuthController::class,'login']);
-Route::middleware('auth:sanctum')->group(function() {
-    Route::get("user",[AuthController::class,"user"]);
-});
-
 Route::get('/all-product', [ProductController::class, 'productAll']);
 Route::get('/all-category-product', [ProductController::class, 'categoryProductAll']);
 Route::get('/kategori/{id_kategori}', [ProductController::class, 'byKategori']);
@@ -39,3 +34,12 @@ Route::get('/orders-by-wa', [OrderController::class, 'orderByWa']);
 Route::post('/orders', [OrderController::class, 'orders']);
 
 Route::post('/device-logs', [DeviceLogsController::class, 'insert']);
+
+
+// Admin API
+
+Route::post("/login",[AuthController::class,'login']);
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get("/user",[AuthController::class,"user"]);
+    Route::post("/logout",[AuthController::class,'logout']);
+});
