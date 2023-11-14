@@ -28,10 +28,11 @@ class AuthController extends Controller
 
         $token  = $user->createToken("token")->plainTextToken;
 
-        $cookie     = Cookie("jwt",$token,60*24);
+        $cookie     = cookie("jwt",$token,60*24*7);
 
         return response([
-            "message" => "Successfuly login"
+            "message" => "Successfuly login",
+            "user"  => $user
         ])->withCookie($cookie);
     }
     public function user() {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DeviceLogsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -21,10 +22,10 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 }); */
 
-// Route::post("/login",[AuthController::class,'login']);
-// Route::middleware('auth:sanctum')->group(function() {
-//     Route::get("user",[AuthController::class,"user"]);
-// });
+Route::post("/login",[AuthController::class,'login']);
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get("user",[AuthController::class,"user"]);
+});
 
 Route::get('/all-product', [ProductController::class, 'productAll']);
 Route::get('/all-category-product', [ProductController::class, 'categoryProductAll']);
