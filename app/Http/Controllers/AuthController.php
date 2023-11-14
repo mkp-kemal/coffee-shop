@@ -15,7 +15,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
         
-        $username      = $request->input("username");
+        $username   = $request->input("username");
         $password   = $request->input("password");
         $auth       = Auth::attempt(['username' => $username, 'password' => $password]);        
         if(!$auth){
@@ -25,14 +25,13 @@ class AuthController extends Controller
         }
 
         $user   = Auth::user();
-
         $token  = $user->createToken("token")->plainTextToken;
-
-        $cookie     = cookie("jwt",$token,60*24*7);
+        $cookie = cookie("jwt",$token,60*24*7);
 
         return response([
             "message" => "Successfuly login",
-            "user"  => $user
+            "user"  => $user,
+            "token"  => $token,
         ])->withCookie($cookie);
     }
     public function user() {
