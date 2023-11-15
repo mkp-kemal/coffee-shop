@@ -38,8 +38,10 @@ Route::post('/device-logs', [DeviceLogsController::class, 'insert']);
 
 // Admin API
 
-Route::post("/login",[AuthController::class,'login']);
-Route::middleware('auth:sanctum')->group(function() {
-    Route::get("/user",[AuthController::class,"user"]);
-    Route::post("/logout",[AuthController::class,'logout']);
+Route::group(["prefix" => "admin"],function () {
+    Route::post("/login",[AuthController::class,'login']);
+    Route::middleware('auth:sanctum')->group(function() {
+        Route::get("/user",[AuthController::class,"user"]);
+        Route::post("/logout",[AuthController::class,'logout']);
+    });
 });
