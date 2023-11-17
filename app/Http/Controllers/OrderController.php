@@ -27,6 +27,8 @@ class OrderController extends Controller
             "nama_pemesan"  => "required",
             "no_wa_pemesan"  => "required|numeric",
             "no_meja"  => "required",
+            "jenis_pembayaran"  => "required",
+            "status_pembayaran"  => "required",
             "menu.*" => "required",
             "device_name"  => "required",
         ]);
@@ -40,14 +42,17 @@ class OrderController extends Controller
         }
 
         $orders     = new Orders;
-        $orders->nomor_invoice      = $request->input("nomor_invoice");
+        $orders->nomor_invoice      = $nomor_invoice;
         $orders->nama_pemesan       = $request->input("nama_pemesan");
+        $orders->no_meja            = $request->input("no_meja");
         $orders->no_wa_pemesan      = $no_wa_pemesan;
-        $orders->jenis_pembayaran   = !empty($request->input("jenis_pembayaran")) ? $request->input("jenis_pembayaran") : "";
+        $orders->jenis_pembayaran   = $request->input("jenis_pembayaran");
+        $orders->status_pembayaran  = $request->input("status_pembayaran");
 
         if($orders->save()){
 
             foreach($request->input("menu") as $menu){
+                $menu      = (object) $menu;
                 $product   = Menu::find($menu->id_menu);
                 if(!empty($menu->id_varian_menu)){
                     $varian    = VarianMenu::where("id_menu",$menu->id_menu)
@@ -55,9 +60,9 @@ class OrderController extends Controller
                 }
                 if(!empty($product)){
                     $detail_orders              = new DetailOrders;
-                    $detail_orders->id_order    = $orders->id;
+                    $detail_orders->id_order    = $orders->id_order;
                     $detail_orders->id_menu     = $menu->id_menu;
-                    $detail_orders->id_varian_menu     = !empty($varian->id_varian_menu) ? $varian->id_varian_menu : "";
+                    $detail_orders->id_varian_menu  = !empty($varian->id_varian_menu) ? $varian->id_varian_menu : null;
                     $detail_orders->jumlah_beli = $menu->qty;
                     $detail_orders->harga_beli  = $product->harga_menu;
 
