@@ -30,6 +30,7 @@ class AuthController extends Controller
 
 		return response([
 			"message" => "Successfuly login",
+			"user" => $user
 		])->withCookie($cookie);
 	}
 	
