@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("no_wa_pemesan",100);
             $table->string("no_meja",100);
             $table->string("jenis_pembayaran",100)->nullable();
-            $table->enum("status_pembayaran",['paylater','unpaid','paid']);
+            $table->enum("status_pembayaran",['pending','success','failed']);
             $table->timestamps();
         });
     }

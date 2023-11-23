@@ -30,7 +30,7 @@ Route::get('/pluck/{id_menu}', [ProductController::class, 'pluckToName']);
 Route::get('/join', [ProductController::class, 'joinTable']);
 Route::post('/order-details', [ProductController::class, 'orderDetails']);
 
-Route::get('/orders-by-wa', [OrderController::class, 'orderByWa']);
+Route::get('/order-by-invoice/{nomor_invoice}', [OrderController::class, 'orderByInvoice']);
 Route::post('/orders', [OrderController::class, 'orders']);
 
 Route::post('/device-logs', [DeviceLogsController::class, 'insert']);
