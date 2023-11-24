@@ -87,6 +87,8 @@ class OrderController extends Controller
             
             if($orders->jenis_pembayaran !== "TUNAI"){
                 $url_redirect = $this->payment($nomor_invoice,$total_price,$orders->jenis_pembayaran);
+            }else{
+                $url_redirect   = env("SANCTUM_STATEFUL_DOMAINS")."/invoices?no=".$nomor_invoice;
             }
 
             $device_logs    = new DeviceLogs;
@@ -143,18 +145,20 @@ class OrderController extends Controller
 
         $apiInstance = new PaymentRequestApi();
         $for_user_id = ""; // string
-        $reference_id = array($req->input("ref_id")); // string[]
+        $ref_id         = $req->input("ref_id");
+        $reference_ids = array($ref_id); // string[]
         try {
-            $result = $apiInstance->getAllPaymentRequests($for_user_id, $reference_id);
+            $result = $apiInstance->getAllPaymentRequests($for_user_id, $reference_ids);
 
             $status     = $result["data"][0]["status"];
             if($status === "SUCCEEDED"){
-                $orders     = Orders::where("nomor_invoice",$reference_id)->first();
+                $orders     = Orders::where("nomor_invoice",$ref_id)->first();
                 if(!empty($orders)){
                     $orders->status_pembayaran = "success";
                     $orders->save();
                 }
             }
+            return redirect(env("SANCTUM_STATEFUL_DOMAINS")."/invoices?no=".$ref_id);
         } catch (\Xendit\XenditSdkException $e) {
             echo 'Exception when calling PaymentRequestApi->getAllPaymentRequests: ', $e->getMessage(), PHP_EOL;
             echo 'Full Error: ', json_encode($e->getFullError()), PHP_EOL;
