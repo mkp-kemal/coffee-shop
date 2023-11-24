@@ -16,7 +16,9 @@ class OrderController extends Controller
 {
     public function orderByInvoice($nomor_invoice){
         $data   = Orders::where("nomor_invoice",$nomor_invoice)
-        ->with(["detail_order"])->first();
+        ->with(["detail_order" => function($q){
+            $q->with(["menu"]);
+        }])->first();
 
         $total_price        = 0;
 
