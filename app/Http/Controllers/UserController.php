@@ -11,6 +11,7 @@ class UserController extends Controller
         $limit      = $request->input("limit");
         $offset     = $request->input("offset");
         $keyword    = $request->input("search");
+        $order      = $request->input("order");
 
         $user = Users::select("username","role");
 
@@ -22,6 +23,10 @@ class UserController extends Controller
         }
 
         $total_data    = $user->count();
+
+        if(!empty($order)){
+            $user->orderBy($order[0],$order[1]);
+        }
 
         $user->limit($limit);
         $user->offset($offset);
