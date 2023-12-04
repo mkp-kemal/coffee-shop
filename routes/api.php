@@ -46,5 +46,8 @@ Route::group(["prefix" => "admin"],function () {
         Route::post("/logout",[AuthController::class,'logout']);
 
         Route::get("/users/all",[UserController::class,"get_all"]);
+        Route::post("/users/insert",[UserController::class,"insert"]);
+        Route::post("/users/update/{id_user}",[UserController::class,"update"]);
+        Route::post("/users/delete/{id_user}",[UserController::class,"delete"]);
     });
 });
