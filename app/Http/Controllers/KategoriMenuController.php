@@ -2,25 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\KategoriMenu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class KategoriMenuController extends Controller
 {
     public function get_all(Request $request){
-        $user       = Auth::user();
-        if($user->role !== "admin"){
-            return response(["unauthorized"],401);
-        }
 
         $limit      = $request->input("limit");
         $offset     = $request->input("offset");
         $keyword    = $request->input("search");
         $order      = $request->input("order");
 
-        $data = User::select("id_user as id","username","role");
+        $data = KategoriMenu::select("id_kategori_menu as id","nama_kategori_menu");
 
         if(!empty($keyword)){
             $data->where(function($query) use ($keyword) {
@@ -45,25 +40,22 @@ class UserController extends Controller
     }
 
     public function insert(Request $request){
+        
         $user       = Auth::user();
         if($user->role !== "admin"){
             return response(["unauthorized"],401);
         }
-        
+
         $request->validate([
-            "username" => "required",
-            "password" => "required|min:8",
-            "role" => "required|in:admin,kasir",
+            "nama_kategori_menu" => "required",
         ]);
 
-        $user   = new User();
-        $user->username     = $request->input("username");
-        $user->password     = Hash::make($request->input("password"));
-        $user->role         = $request->input("role");
+        $kategori_menu   = new KategoriMenu();
+        $kategori_menu->nama_kategori_menu     = $request->input("nama_kategori_menu");
 
-        if($user->save()){
+        if($kategori_menu->save()){
             $data   = [
-                "message"   => "Successfuly create user"
+                "message"   => "Successfuly create kategori menu"
             ];
             return response()->json($data);
         }else{
@@ -74,32 +66,23 @@ class UserController extends Controller
         }
     }
 
-    public function update(Request $request,$id_user){
+    public function update(Request $request,$id_kategori_menu){
+        
         $user       = Auth::user();
         if($user->role !== "admin"){
             return response(["unauthorized"],401);
         }
 
         $request->validate([
-            "username" => "required",
-            "role" => "required|in:admin,kasir",
+            "nama_kategori_menu" => "required",
         ]);
-        if(!empty($request->input("password"))){
-            $request->validate([
-                "password" => "required:min:8",
-            ]);
-        }
 
-        $user   = User::find($id_user);
-        $user->username     = $request->input("username");
-        if(!empty($request->input("password"))){
-            $user->password     = Hash::make($request->input("password"));
-        }
-        $user->role         = $request->input("role");
+        $kategori_menu   = KategoriMenu::find($id_kategori_menu);
+        $kategori_menu->nama_kategori_menu     = $request->input("nama_kategori_menu");
 
-        if($user->save()){
+        if($kategori_menu->save()){
             $data   = [
-                "message"   => "Successfuly update user"
+                "message"   => "Successfuly update kategori menu"
             ];
             return response()->json($data);
         }else{
@@ -110,17 +93,17 @@ class UserController extends Controller
         }
     }
 
-    public function delete($id_user){
+    public function delete($id_kategori_menu){
         
         $user       = Auth::user();
         if($user->role !== "admin"){
             return response(["unauthorized"],401);
         }
 
-        $user   = User::find($id_user);
-        if($user->delete()){
+        $kategori_menu   = KategoriMenu::find($id_kategori_menu);
+        if($kategori_menu->delete()){
             $data   = [
-                "message"   => "Successfuly delete user"
+                "message"   => "Successfuly delete kategori menu"
             ];
             return response()->json($data);
         }else{

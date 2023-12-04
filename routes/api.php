@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DeviceLogsController;
+use App\Http\Controllers\KategoriMenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -49,5 +50,10 @@ Route::group(["prefix" => "admin"],function () {
         Route::post("/users/insert",[UserController::class,"insert"]);
         Route::post("/users/update/{id_user}",[UserController::class,"update"]);
         Route::post("/users/delete/{id_user}",[UserController::class,"delete"]);
+
+        Route::get("/kategori_menu/all",[KategoriMenuController::class,"get_all"]);
+        Route::post("/kategori_menu/insert",[KategoriMenuController::class,"insert"]);
+        Route::post("/kategori_menu/update/{id_user}",[KategoriMenuController::class,"update"]);
+        Route::post("/kategori_menu/delete/{id_user}",[KategoriMenuController::class,"delete"]);
     });
 });
