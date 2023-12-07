@@ -167,4 +167,97 @@ class OrderController extends Controller
         }
         
     }
+
+    public function get_all(Request $request){
+
+        $limit      = $request->input("limit");
+        $offset     = $request->input("offset");
+        $keyword    = $request->input("search");
+        $order      = $request->input("order");
+
+        $data = Orders::with(["detail_order" => function($q){
+            $q->with(["menu"]);
+        }]);
+
+        if(!empty($keyword)){
+            $data->where(function($query) use ($keyword) {
+                $query->where("nomor_invoice","like","%$keyword%");
+                $query->orWhere("nama_pemesan","like","%$keyword%");
+                $query->orWhere("no_wa_pemesan","like","%$keyword%");
+                $query->orWhere("no_meja","like","%$keyword%");
+                $query->orWhere("jenis_pembayaran","like","%$keyword%");
+                $query->orWhere("status_pembayaran","like","%$keyword%");
+                $query->orWhere("created_at","like","%$keyword%");
+            });
+        }
+
+        $total_data    = $data->count();
+
+        if(!empty($order)){
+            $data->orderBy($order[0],$order[1]);
+        }
+
+        $data->limit($limit);
+        $data->offset($offset);
+
+        $result     = $data->get();
+
+        foreach($result as $row){
+            $total_price = 0;
+            $total_qty = 0;
+
+            foreach($row->detail_order as $detail_order){
+                $total_qty  += $detail_order->jumlah_beli;
+                $total_price += ($detail_order->harga_beli * $detail_order->jumlah_beli);
+            }
+
+            $row->total_price = $total_price;
+            $row->total_qty = $total_qty;
+        }
+        return response([
+            "data"      => $result,
+            "totalData" => $total_data,
+        ]);
+    }
+
+    public function update_pembayaran(Request $request,$id){
+        $request->validate([
+            "bayar"     => "required",
+        ]);
+
+        $bayar  = preg_replace("/[^0-9]/","",$request->input("bayar"));
+        $bayar  = intval($bayar);
+
+        $order  = Orders::where("id_order",$id)->with(["detail_order"])->first();
+        
+        if(empty($order)){
+            return response()->json([
+                "message" => "Order tidak ditemukan"
+            ],422);
+        }
+
+        $total_price    = 0;
+
+        foreach($order->detail_order as $detail_order){
+            $total_price += ($detail_order->harga_beli * $detail_order->jumlah_beli);
+        }
+
+        if($bayar - $total_price < 0){
+            return response()->json([
+                "message" => "Pembayaran kurang"
+            ],422);
+        }
+
+        $order->status_pembayaran  = "success";
+        if($order->save()){
+            return response()->json([
+                "message" => "Pembayaran berhasil!"
+            ]);
+        }else{
+            return response()->json([
+                "message" => "Failed, please try again."
+            ],422);
+        }
+
+    }
 }

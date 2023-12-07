@@ -61,5 +61,8 @@ Route::group(["prefix" => "admin"],function () {
         Route::post("/menu/insert",[MenuController::class,"insert"]);
         Route::post("/menu/update/{id}",[MenuController::class,"update"]);
         Route::post("/menu/delete/{id}",[MenuController::class,"delete"]);
+
+        Route::get('/orders/all', [OrderController::class, 'get_all']);
+        Route::post('/orders/bayar/{id}', [OrderController::class, 'update_pembayaran']);
     });
 });
