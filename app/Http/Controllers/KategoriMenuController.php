@@ -19,8 +19,7 @@ class KategoriMenuController extends Controller
 
         if(!empty($keyword)){
             $data->where(function($query) use ($keyword) {
-                $query->where("username","like","%$keyword%");
-                $query->orWhere("role","like","%$keyword%");
+                $query->where("nama_kategori_menu","like","%$keyword%");
             });
         }
 
@@ -30,8 +29,10 @@ class KategoriMenuController extends Controller
             $data->orderBy($order[0],$order[1]);
         }
 
-        $data->limit($limit);
-        $data->offset($offset);
+        if(!empty($limit)){
+            $data->limit($limit);
+            $data->offset($offset);
+        }
 
         return response([
             "data"      => $data->get(),

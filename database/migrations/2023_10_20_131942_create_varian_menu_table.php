@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments("id_varian_menu");
             $table->integer("id_menu")->unsigned();
             $table->string("nama_varian_menu",100);
-            $table->string("harga_varian_menu");
+            $table->integer("harga_varian_menu");
             $table->foreign('id_menu')->references('id_menu')->on('menu')->onDelete("cascade");
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();

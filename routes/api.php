@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DeviceLogsController;
 use App\Http\Controllers\KategoriMenuController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -48,12 +49,17 @@ Route::group(["prefix" => "admin"],function () {
 
         Route::get("/users/all",[UserController::class,"get_all"]);
         Route::post("/users/insert",[UserController::class,"insert"]);
-        Route::post("/users/update/{id_user}",[UserController::class,"update"]);
-        Route::post("/users/delete/{id_user}",[UserController::class,"delete"]);
+        Route::post("/users/update/{id}",[UserController::class,"update"]);
+        Route::post("/users/delete/{id}",[UserController::class,"delete"]);
 
         Route::get("/kategori_menu/all",[KategoriMenuController::class,"get_all"]);
         Route::post("/kategori_menu/insert",[KategoriMenuController::class,"insert"]);
-        Route::post("/kategori_menu/update/{id_user}",[KategoriMenuController::class,"update"]);
-        Route::post("/kategori_menu/delete/{id_user}",[KategoriMenuController::class,"delete"]);
+        Route::post("/kategori_menu/update/{id}",[KategoriMenuController::class,"update"]);
+        Route::post("/kategori_menu/delete/{id}",[KategoriMenuController::class,"delete"]);
+
+        Route::get("/menu/all",[MenuController::class,"get_all"]);
+        Route::post("/menu/insert",[MenuController::class,"insert"]);
+        Route::post("/menu/update/{id}",[MenuController::class,"update"]);
+        Route::post("/menu/delete/{id}",[MenuController::class,"delete"]);
     });
 });

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer("id_kategori_menu")->unsigned();
             $table->string("nama_menu",100);
             $table->text("deskripsi_menu");
-            $table->string("harga_menu");
+            $table->integer("harga_menu");
             $table->string("url_gambar");
             $table->foreign('id_kategori_menu')->references('id_kategori_menu')->on('kategori_menu')->onDelete("cascade");
             $table->softDeletes($column = 'deleted_at', $precision = 0);
