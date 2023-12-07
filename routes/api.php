@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceLogsController;
 use App\Http\Controllers\KategoriMenuController;
 use App\Http\Controllers\MenuController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +48,8 @@ Route::group(["prefix" => "admin"],function () {
     Route::middleware('auth:sanctum')->group(function() {
         Route::get("/user",[AuthController::class,"user"]);
         Route::post("/logout",[AuthController::class,'logout']);
+
+        Route::get('/dashboard', [DashboardController::class, 'get_data_dashboard']);
 
         Route::get("/users/all",[UserController::class,"get_all"]);
         Route::post("/users/insert",[UserController::class,"insert"]);

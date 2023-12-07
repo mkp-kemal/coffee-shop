@@ -211,8 +211,8 @@ class OrderController extends Controller
                 $total_price += ($detail_order->harga_beli * $detail_order->jumlah_beli);
             }
 
-            $row->total_price = $total_price;
-            $row->total_qty = $total_qty;
+            $row->total_price   = $total_price;
+            $row->total_qty     = $total_qty;
         }
         return response([
             "data"      => $result,

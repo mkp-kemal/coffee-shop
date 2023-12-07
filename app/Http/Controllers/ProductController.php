@@ -11,6 +11,19 @@ class ProductController extends Controller
     public function productAll()
     {
         $menu_table = KategoriMenu::with(["menu"])->get();
+        foreach($menu_table as $key => $row){
+            if(!empty($row->menu)){
+                foreach($row->menu as $menu){
+                    if(!empty($menu->url_gambar)){
+                        if(strpos($menu->url_gambar,"http") !== 0){
+                            $menu->url_gambar = url($menu->url_gambar);
+                        }
+                    }
+                }
+            }
+
+            $menu_table[$key]   = $row;
+        }
         return response()->json($menu_table);
     }
 
